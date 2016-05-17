@@ -1,13 +1,25 @@
 /*
- * UoWM ICTE
+ * UNIVERSITY of WESTERN MACEDONIA
+ *        ICTE Department
  * 
  * ARDUINO LED CUBE
  * 
+ * -----------Made by-----------------
  * George Kortsaridis
- * Vicky Fiska
+ * email : gkortsaridis@gmail.com
+ * web   : gkortsaridis.noip.me
  * 
+ * Vicky Fiska
+ * email : 
+ * web   : 
+ * -----------------------------------
+ * 
+ * --------Supervised by-------------
+ * Dasygenis Minas
+ * email : mdasyg@ieee.com
+ * web   : arch.icte.uowm.gr
+ * -----------------------------------
  */
-#define arr_len( x )  ( sizeof( x ) / sizeof( *x ) )
 
 int column[] = {
   30,28,26,24,22,
@@ -26,6 +38,8 @@ int state = 7;
 
 int testAnimation[] = {0,1,2,3,4,5};
 
+const int anim_frames = 3;
+int animation[anim_frames][125] = {{1,1,1,1,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 void setup() {
   // put your setup code here, to run once:
 
@@ -67,7 +81,7 @@ void loop() {
   }else if(state == 6){
     fromIntArrayToState(testAnimation, 250, 6);
   }else if(state == 7){
-    fromCharArrayToAnimation('a',250,7);
+    fromIntIntArrayToAnimation(250);
   }
   
 
@@ -162,46 +176,15 @@ void fromIntArrayToState(int intarray[] , int del, int arraySize){
     allOff();
 }
 
-
-/*We're going to convert a char to a string of 'binary' digits*/
-/*That is, base 2 */
-#define BASE 2;
-/*We know that the maximum number of characters in the*/
-/*string will be 8 to provide a string representation */
-/*of a byte */
-#define DIGITS 8;
-void convertBaseVersionOne(char input, char *output){
-int i, remainder;
-char digitsArray[3] = "01";
-/*Why this array? Because we can very easily change this for*/
-/*convertBaseVersionTwo(), where we will convert to a */
-/*'hexadecimal string' */
-
-
-/*And here is where the very straightforward 'magic' happens: */
-/* Going backwards through the array of eight characters, */
-/* starting at the most significant 'bit' i.e. the leftmost one . */
-
-
-for (i = DIGITS; i>0; i--)
-{
-remainder = input % BASE;
-input = input / BASE;
-output[i - 1] = digitsArray[remainder];
+void fromIntIntArrayToAnimation(int del){
+  for(int i=0; i<anim_frames; i++){
+    allOff();
+    for(int j=0; j<125; j++){
+       led(j,animation[i][j]);
+       delay(1);
+    }
+    delay(del);
+    
+  }
 }
 
-
-/*We're creating a string, so we need to have the null character on the end:*/
-output[digits] = '\0';
-
-
-}
-
-
-
-void fromCharArrayToAnimation(char chararray, int del, int arraySize){
-  char * thisChar;
-  char a = 'a';
-convertBaseVersionOneconvertBaseVersionOne(a,thisChar);
-Serial.println(thisChar);
-}
